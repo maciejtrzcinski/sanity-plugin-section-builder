@@ -1,0 +1,108 @@
+{
+  "name": "@maciejtrzcinski/sanity-plugin-section-builder",
+  "version": "1.0.0",
+  "description": "Visual page-builder section picker for Sanity Studio — thumbnail previews in the array editor, edit pane, and insert menu, driven by a single section registry.",
+  "keywords": [
+    "sanity",
+    "sanity-plugin",
+    "page-builder",
+    "preview",
+    "section",
+    "insert-menu"
+  ],
+  "homepage": "https://github.com/maciejtrzcinski/sanity-plugin-section-builder#readme",
+  "bugs": {
+    "url": "https://github.com/maciejtrzcinski/sanity-plugin-section-builder/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maciejtrzcinski/sanity-plugin-section-builder.git"
+  },
+  "license": "MIT",
+  "author": "Maciej Trzciński",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "pkg-utils build --clean",
+    "changeset": "changeset",
+    "check": "npm run lint && npm run type-check && npm run format:check && npm run knip && npm run test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "knip": "knip",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky",
+    "prepublishOnly": "npm run build",
+    "release": "changeset publish",
+    "test": "vitest run",
+    "type-check": "tsc --noEmit",
+    "version": "changeset version",
+    "watch": "pkg-utils watch"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,mjs,cjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "browserslist": [
+    "> 0.2%",
+    "last 2 versions",
+    "not ios_saf < 13",
+    "not safari < 13",
+    "not dead",
+    "maintained node versions"
+  ],
+  "prettier": "@sanity/prettier-config",
+  "devDependencies": {
+    "@changesets/cli": "^2.31.0",
+    "@sanity/eslint-config-studio": "^6",
+    "@sanity/pkg-utils": "^10.5.2",
+    "@sanity/prettier-config": "^3",
+    "@types/node": "^25.9.1",
+    "@types/react": "19.2.16",
+    "eslint": "^9",
+    "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "knip": "^6.15.0",
+    "lint-staged": "^17.0.7",
+    "prettier": "^3",
+    "prettier-plugin-packagejson": "^3.0.2",
+    "react": "19.2.7",
+    "sanity": "5.28.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.8"
+  },
+  "peerDependencies": {
+    "react": "^18 || ^19",
+    "sanity": "^3.36.0 || ^4.0.0 || ^5.0.0"
+  },
+  "packageManager": "pnpm@10.4.1",
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

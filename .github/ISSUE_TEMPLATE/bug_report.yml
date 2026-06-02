@@ -1,0 +1,43 @@
+name: Bug report
+description: Report a problem with the plugin
+labels: [bug]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug, including what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps (or a repo/sandbox link) that reproduce the issue.
+      placeholder: |
+        1. Configure `sectionBuilder` with …
+        2. Open the array editor …
+        3. See …
+    validations:
+      required: true
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Plugin version
+      placeholder: e.g. 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: sanity-version
+    attributes:
+      label: Sanity version
+      placeholder: e.g. sanity 5.28.0
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Environment, screenshots, logs — anything else that helps.
+    validations:
+      required: false
