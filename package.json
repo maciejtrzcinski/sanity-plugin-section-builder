@@ -79,7 +79,7 @@
     "@sanity/eslint-config-studio": "^6",
     "@sanity/pkg-utils": "^10.5.2",
     "@sanity/prettier-config": "^3",
-    "@types/node": "^25.9.1",
+    "@types/node": "^26.0.1",
     "@types/react": "19.2.16",
     "eslint": "^9",
     "eslint-config-prettier": "^10.1.8",
