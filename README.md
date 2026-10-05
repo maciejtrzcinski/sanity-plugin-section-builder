@@ -17,8 +17,8 @@ resolve by filename convention, so there's nothing to map by hand.
 npm install @maciejtrzcinski/sanity-plugin-section-builder
 ```
 
-Requires `sanity` ≥ 3.36 (for the insert-menu grid `previewImageUrl` API) and
-`react` 18 or 19 (both are peer dependencies — they come from your studio).
+Requires `sanity` 5 or 6 and `react` ≥ 19.2 (both are peer dependencies — they
+come from your studio).
 
 ## Usage
 

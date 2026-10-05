@@ -1,6 +1,6 @@
 {
   "name": "@maciejtrzcinski/sanity-plugin-section-builder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Visual page-builder section picker for Sanity Studio — thumbnail previews in the array editor, edit pane, and insert menu, driven by a single section registry.",
   "keywords": [
     "sanity",
@@ -80,7 +80,7 @@
     "@sanity/pkg-utils": "^10.5.2",
     "@sanity/prettier-config": "^3",
     "@types/node": "^25.9.1",
-    "@types/react": "19.2.16",
+    "@types/react": "19.3.0",
     "eslint": "^9",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
@@ -88,14 +88,14 @@
     "lint-staged": "^17.0.7",
     "prettier": "^3",
     "prettier-plugin-packagejson": "^3.0.2",
-    "react": "19.2.7",
-    "sanity": "5.28.0",
+    "react": "19.3.0",
+    "sanity": "6.17.0",
     "typescript": "^6.0.3",
     "vitest": "^4.1.8"
   },
   "peerDependencies": {
-    "react": "^18 || ^19",
-    "sanity": "^3.36.0 || ^4.0.0 || ^5.0.0"
+    "react": "^19.2",
+    "sanity": "^5.0.0 || ^6.0.0"
   },
   "packageManager": "pnpm@10.4.1",
   "engines": {
