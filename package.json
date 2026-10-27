@@ -77,7 +77,7 @@
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
     "@sanity/eslint-config-studio": "^6",
-    "@sanity/pkg-utils": "^10.5.2",
+    "@sanity/pkg-utils": "^13.0.16",
     "@sanity/prettier-config": "^3",
     "@types/node": "^25.9.1",
     "@types/react": "19.3.0",
