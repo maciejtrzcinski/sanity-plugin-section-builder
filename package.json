@@ -75,7 +75,7 @@
   ],
   "prettier": "@sanity/prettier-config",
   "devDependencies": {
-    "@changesets/cli": "^2.31.0",
+    "@changesets/cli": "^3.0.3",
     "@sanity/eslint-config-studio": "^6",
     "@sanity/pkg-utils": "^10.5.2",
     "@sanity/prettier-config": "^3",
