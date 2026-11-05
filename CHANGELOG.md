@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/maciejtrzcinski/sanity-plugin-section-builder/compare/v1.0.1...v1.0.2) (2026-11-05)
+
+### Bug Fixes
+
+- keep insert-menu grid with fieldOptions, pass data:/blob: preview URLs through ([#21](https://github.com/maciejtrzcinski/sanity-plugin-section-builder/issues/21)) ([ad667f7](https://github.com/maciejtrzcinski/sanity-plugin-section-builder/commit/ad667f714a4a1c8832cc9c0d066d0b9b32cca0ff))
+
 ## 1.0.1
 
 ### Patch Changes
