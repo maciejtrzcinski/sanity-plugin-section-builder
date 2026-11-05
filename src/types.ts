@@ -7,7 +7,8 @@ export interface SectionDefinition {
   /**
    * Preview thumbnail for this section. Either:
    * - a bare filename (e.g. `hero.png`) resolved against `previewBaseUrl`, or
-   * - an absolute URL / root-relative path (e.g. `https://…` or `/img/hero.png`) used as-is.
+   * - a URL used as-is: any scheme (`https://…`, `data:…`, `blob:…`), protocol-relative
+   *   (`//cdn…`), or root-relative (`/img/hero.png`).
    */
   previewImage?: string
   /**

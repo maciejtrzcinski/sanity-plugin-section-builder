@@ -60,8 +60,12 @@ export interface SectionFieldOptions {
   group?: string
   /** Restrict which sections are offered (e.g. `s => s.group === 'index'`). */
   filter?: SectionFilter
-  /** Additional options merged into the resulting `defineField` call. */
-  fieldOptions?: Partial<ArrayDefinition>
+  /**
+   * Additional properties merged into the resulting `defineField` call.
+   * `options` is merged with the generated insert-menu config rather than
+   * replacing it; pass `options.insertMenu.views` to replace the grid view.
+   */
+  fieldOptions?: Omit<Partial<ArrayDefinition>, 'type' | 'of' | 'name'>
 }
 
 /**
@@ -91,16 +95,20 @@ export function sectionArrayMembers(
 export function sectionField(config: SectionBuilderConfig, options: SectionFieldOptions = {}) {
   const resolved = resolveConfig(config)
   const {name = 'pageBuilder', title = 'Page Builder', group, filter, fieldOptions = {}} = options
+  const {options: extraOptions, ...extraProps} = fieldOptions
 
   return defineField({
     name,
     title,
-    type: 'array',
     group,
+    ...extraProps,
+    type: 'array',
     of: sectionArrayMembers(config, filter),
     options: {
+      ...extraOptions,
       insertMenu: {
-        views: [
+        ...extraOptions?.insertMenu,
+        views: extraOptions?.insertMenu?.views ?? [
           {
             name: 'grid',
             previewImageUrl: (schemaTypeName: string) =>
@@ -109,6 +117,5 @@ export function sectionField(config: SectionBuilderConfig, options: SectionField
         ],
       },
     },
-    ...fieldOptions,
   })
 }

@@ -51,13 +51,17 @@ const defaultPreviewImage = (name: string): string => `${toKebabCase(name)}.png`
 
 /**
  * Derive the section list from a studio's schema type definitions instead of a
- * hand-maintained registry. Drop in a new `*Section` schema and it's picked up
- * automatically. Use `include`/`exclude` for exceptions, `order`/`sort` to
- * control how they appear, and `overrides` for per-type tweaks.
+ * hand-maintained registry. Add a new `*Section` schema to the list and it's
+ * picked up automatically. Use `include`/`exclude` for exceptions, `order`/`sort`
+ * to control how they appear, and `overrides` for per-type tweaks.
+ *
+ * Pass a section-only list, not your full `schemaTypes`: the document that holds
+ * the page-builder field depends on this result, so scanning the array that
+ * contains that document creates a circular import.
  *
  * ```ts
- * import {schemaTypes} from './schemaTypes'
- * const sections = detectSections(schemaTypes, {
+ * import {sectionTypes} from './schemaTypes/sections'
+ * const sections = detectSections(sectionTypes, {
  *   include: ['quoteSectionTitled'],   // doesn't match the default predicate
  *   order: ['heroSection'],            // pin to the top
  *   sort: 'name',                      // rest alphabetical

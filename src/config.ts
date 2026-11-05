@@ -4,19 +4,25 @@ import type {ResolvedSectionBuilderConfig, SectionBuilderConfig, SectionDefiniti
 const DEFAULT_PREVIEW_BASE_URL = '/static/section-previews'
 const DEFAULT_PREVIEW_HEIGHT = 320
 
-const ABSOLUTE_URL = /^(https?:)?\/\//i
+/**
+ * Any URL with a scheme (`https:`, `data:`, `blob:` …) or a root-/protocol-relative
+ * path (`/img/hero.png`, `//cdn.example.com/hero.png`). Vite inlines small imported
+ * assets as `data:` URIs, so those must pass through too.
+ */
+const EXTERNAL_URL = /^(?:[a-z][a-z\d+.-]*:|\/)/i
+
+const isExternal = (previewImage: string): boolean => EXTERNAL_URL.test(previewImage)
 
 /**
  * Resolve a `previewImage` value to a URL.
- * Absolute URLs and root-relative paths are returned unchanged; bare filenames
- * are joined to `baseUrl`.
+ * Absolute URLs (any scheme) and root-relative paths are returned unchanged;
+ * bare filenames are joined to `baseUrl`.
  */
 export function resolvePreviewUrl(previewImage: string, baseUrl: string): string {
-  if (ABSOLUTE_URL.test(previewImage) || previewImage.startsWith('/')) {
+  if (isExternal(previewImage)) {
     return previewImage
   }
-  const base = baseUrl.replace(/\/+$/, '')
-  return `${base}/${previewImage.replace(/^\/+/, '')}`
+  return `${baseUrl.replace(/\/+$/, '')}/${previewImage}`
 }
 
 /**
@@ -107,7 +113,7 @@ export function auditPreviewAssets(
       withoutPreview.push(section)
       continue
     }
-    if (ABSOLUTE_URL.test(section.previewImage) || section.previewImage.startsWith('/')) {
+    if (isExternal(section.previewImage)) {
       continue
     }
     referenced.add(section.previewImage)
