@@ -5,7 +5,8 @@ covers everything you need to get a change merged.
 
 ## Prerequisites
 
-- **Node.js ≥ 20** (required by both the published plugin and the dev toolchain).
+- **Node.js 22.22+ or 24.11+** for the dev toolchain (the published plugin itself
+  supports Node ≥ 20).
 - **pnpm** — this repo pins its version via the `packageManager` field. The
   easiest way to get the right one is [Corepack](https://nodejs.org/api/corepack.html):
 

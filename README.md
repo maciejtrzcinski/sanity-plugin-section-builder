@@ -271,7 +271,7 @@ into the Studio.
 
 ## Developing
 
-Requires Node ≥ 20 and pnpm (`packageManager` is pinned in `package.json`).
+Requires Node 22.22+ or 24.11+ and pnpm (`packageManager` is pinned in `package.json`).
 
 ```sh
 pnpm install

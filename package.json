@@ -72,24 +72,25 @@
   ],
   "prettier": "@sanity/prettier-config",
   "devDependencies": {
-    "@sanity/eslint-config-studio": "^6",
-    "@sanity/pkg-utils": "^10.5.2",
-    "@sanity/prettier-config": "^3",
+    "@sanity/eslint-config-studio": "^7.0.0",
+    "@sanity/pkg-utils": "^13.0.16",
+    "@sanity/prettier-config": "^3.0.0",
     "@sanity/semantic-release-preset": "^6.0.0",
-    "@types/node": "^25.9.1",
+    "@types/node": "^26.6.6",
     "@types/react": "19.3.0",
-    "eslint": "^9",
+    "eslint": "^10.14.0",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
     "knip": "^6.44.1",
-    "lint-staged": "^17.0.7",
-    "prettier": "^3",
-    "prettier-plugin-packagejson": "^3.0.2",
-    "react": "19.3.0",
-    "sanity": "6.17.0",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.10",
+    "prettier-plugin-packagejson": "^3.1.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "sanity": "6.22.0",
     "semantic-release": "^25.0.9",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.8"
+    "vitest": "^5.1.0"
   },
   "peerDependencies": {
     "react": "^19.2",
@@ -101,6 +102,14 @@
   },
   "publishConfig": {
     "access": "public",
+    "exports": {
+      ".": {
+        "import": "./dist/index.js",
+        "require": "./dist/index.cjs",
+        "default": "./dist/index.js"
+      },
+      "./package.json": "./package.json"
+    },
     "provenance": true
   }
 }
