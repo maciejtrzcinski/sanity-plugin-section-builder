@@ -41,7 +41,6 @@
   ],
   "scripts": {
     "build": "pkg-utils build --clean",
-    "changeset": "changeset",
     "check": "npm run lint && npm run type-check && npm run format:check && npm run knip && npm run test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -50,10 +49,8 @@
     "lint:fix": "eslint . --fix",
     "prepare": "husky",
     "prepublishOnly": "npm run build",
-    "release": "changeset publish",
     "test": "vitest run",
     "type-check": "tsc --noEmit",
-    "version": "changeset version",
     "watch": "pkg-utils watch"
   },
   "lint-staged": {
@@ -75,21 +72,22 @@
   ],
   "prettier": "@sanity/prettier-config",
   "devDependencies": {
-    "@changesets/cli": "^2.31.0",
     "@sanity/eslint-config-studio": "^6",
     "@sanity/pkg-utils": "^10.5.2",
     "@sanity/prettier-config": "^3",
+    "@sanity/semantic-release-preset": "^6.0.0",
     "@types/node": "^25.9.1",
     "@types/react": "19.3.0",
     "eslint": "^9",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
-    "knip": "^6.15.0",
+    "knip": "^6.44.1",
     "lint-staged": "^17.0.7",
     "prettier": "^3",
     "prettier-plugin-packagejson": "^3.0.2",
     "react": "19.3.0",
     "sanity": "6.17.0",
+    "semantic-release": "^25.0.9",
     "typescript": "^6.0.3",
     "vitest": "^4.1.8"
   },
