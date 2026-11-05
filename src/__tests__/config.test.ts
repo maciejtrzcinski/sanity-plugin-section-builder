@@ -29,6 +29,16 @@ describe('resolvePreviewUrl', () => {
   it('passes through root-relative paths', () => {
     expect(resolvePreviewUrl('/img/hero.png', '/static')).toBe('/img/hero.png')
   })
+
+  it.each([
+    'data:image/png;base64,AAA',
+    'data:image/svg+xml,%3Csvg%3E%3C/svg%3E',
+    'blob:https://studio.example.com/123',
+    '//cdn.example.com/hero.png',
+    'HTTPS://CDN.EXAMPLE.COM/hero.png',
+  ])('passes through %s unchanged', (url) => {
+    expect(resolvePreviewUrl(url, '/static/section-previews')).toBe(url)
+  })
 })
 
 describe('resolveConfig', () => {
@@ -79,5 +89,16 @@ describe('auditPreviewAssets', () => {
   it('reports unreferenced files and ignores external URLs', () => {
     const {unused} = auditPreviewAssets(sections, ['a.png', 'orphan.png'])
     expect(unused).toEqual(['orphan.png'])
+  })
+
+  it('does not report data: or blob: previews as missing files', () => {
+    const {missing} = auditPreviewAssets(
+      [
+        {type: 'e', previewImage: 'data:image/png;base64,AAA'},
+        {type: 'f', previewImage: 'blob:https://studio.example.com/123'},
+      ],
+      [],
+    )
+    expect(missing).toEqual([])
   })
 })

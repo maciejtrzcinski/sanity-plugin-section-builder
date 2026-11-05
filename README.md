@@ -28,25 +28,52 @@ Either **auto-detect** them from your schema (recommended) or list them explicit
 
 #### Auto-detect (recommended)
 
-Drop in a `*Section` object type and it's picked up automatically — no registry to
-maintain. Preview filenames default to the kebab-cased type name (`heroSection` →
-`hero-section.png`); see [Preview images](#preview-images) for how resolution works.
+Export your section schemas from one module and the plugin picks out the
+sections (by default, every `*Section` type), so there's no registry with
+preview images to maintain. Preview filenames default to the kebab-cased type
+name (`heroSection` → `hero-section.png`); see [Preview images](#preview-images)
+for how resolution works.
+
+```ts
+// schemaTypes/sections/index.ts — your section schemas (helper object types are fine too)
+import {faqSection} from './faqSection'
+import {heroSection} from './heroSection'
+import {quoteSectionTitled} from './quoteSectionTitled'
+
+export const sectionTypes = [heroSection, faqSection, quoteSectionTitled]
+```
 
 ```ts
 // sections.ts
 import type {SectionBuilderConfig} from '@maciejtrzcinski/sanity-plugin-section-builder'
-import {schemaTypes} from './schemaTypes'
+import {sectionTypes} from './schemaTypes/sections'
 
 export const SECTIONS = {
   previewBaseUrl: '/static/section-previews',
   detect: {
-    types: schemaTypes,
+    types: sectionTypes,
     // isSection defaults to (t) => t.name.endsWith('Section')
     include: ['quoteSectionTitled'], // sections that don't match the predicate
     order: ['heroSection'], // pin to the top; sort: 'name' for the rest
   },
 } satisfies SectionBuilderConfig
 ```
+
+```ts
+// schemaTypes/index.ts
+import {page} from './page'
+import {sectionTypes} from './sections'
+
+export const schemaTypes = [page, ...sectionTypes]
+```
+
+> [!IMPORTANT]
+> Don't pass your full `schemaTypes` array to `detect.types`. The document with
+> the page-builder field ([step 3](#3-build-your-page-builder-field)) imports
+> `SECTIONS`, so if `SECTIONS` imports the array that contains that document, the
+> two modules import each other and the Studio fails to load with
+> `ReferenceError: Cannot access '…' before initialization`. Keep the section
+> schemas in their own module, as above.
 
 `detect` options: `isSection`, `include`, `exclude`, `previewImage` (deriver),
 `group`, `overrides`, `order`, `sort` (`'name'` or a comparator). `order` is
@@ -67,8 +94,10 @@ export const SECTIONS = {
 } satisfies SectionBuilderConfig
 ```
 
-`previewImage` may be a bare filename (resolved against `previewBaseUrl`) or an
-absolute URL / root-relative path used as-is.
+`previewImage` may be a bare filename (resolved against `previewBaseUrl`) or a
+URL used as-is: absolute (`https:`, `data:`, `blob:`, …), protocol-relative, or
+root-relative. That includes an imported asset (`import hero from './hero.png'`),
+which Vite may inline as a `data:` URI.
 
 ### Preview images
 
@@ -98,7 +127,7 @@ import {toKebabCase} from '@maciejtrzcinski/sanity-plugin-section-builder'
 import {PREVIEW_FILES} from './preview-manifest'
 
 detect: {
-  types: schemaTypes,
+  types: sectionTypes,
   previewImage: (name) => {
     const file = `${toKebabCase(name)}.png`
     return PREVIEW_FILES.has(file) ? file : undefined // undefined → no preview, not a 404
@@ -125,9 +154,10 @@ export default defineConfig({
 ### 3. Build your page-builder field
 
 ```ts
+// schemaTypes/page.ts
 import {defineType} from 'sanity'
 import {sectionField} from '@maciejtrzcinski/sanity-plugin-section-builder'
-import {SECTIONS} from './sections'
+import {SECTIONS} from '../sections'
 
 export const page = defineType({
   name: 'page',
@@ -173,9 +203,9 @@ auto-detect (the config's `sections` is only populated in explicit mode):
 ```ts
 import {readdirSync} from 'node:fs'
 import {auditPreviewAssets, detectSections} from '@maciejtrzcinski/sanity-plugin-section-builder'
-import {schemaTypes} from './schemaTypes'
+import {sectionTypes} from './schemaTypes/sections'
 
-const sections = detectSections(schemaTypes, {include: ['quoteSectionTitled']})
+const sections = detectSections(sectionTypes, {include: ['quoteSectionTitled']})
 const {missing, unused, withoutPreview} = auditPreviewAssets(
   sections,
   readdirSync('static/section-previews'),
@@ -245,7 +275,9 @@ interface SectionFieldOptions {
   title?: string // default 'Page Builder'
   group?: string // fieldset/group the field belongs to
   filter?: (s: SectionDefinition) => boolean // restrict which sections are offered
-  fieldOptions?: Partial<ArrayDefinition> // merged into the resulting defineField
+  // Merged into the resulting defineField. `options` is merged with the generated
+  // insert-menu config; set `options.insertMenu.views` to replace the grid view.
+  fieldOptions?: Omit<Partial<ArrayDefinition>, 'type' | 'of' | 'name'>
 }
 ```
 
