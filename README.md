@@ -282,8 +282,9 @@ pnpm type-check   # tsc --noEmit
 pnpm check        # lint + type-check + format:check + knip + test (CI gate)
 ```
 
-Releases are managed with [Changesets](https://github.com/changesets/changesets):
-run `pnpm changeset` to record a change, then `pnpm release` publishes.
+Releases are automated with
+[semantic-release](https://semantic-release.gitbook.io/): [Conventional Commits](https://www.conventionalcommits.org/)
+on `main` decide the next version. See [CONTRIBUTING.md](./CONTRIBUTING.md#commits-and-releases).
 
 ## License
 
