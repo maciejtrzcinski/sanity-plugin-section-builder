@@ -12,7 +12,12 @@ export type {
   ResolvedSectionBuilderConfig,
   DetectConfig,
 } from './types'
-export {resolvePreviewUrl, sectionsMissingPreview, auditPreviewAssets} from './config'
+export {
+  resolveConfig,
+  resolvePreviewUrl,
+  sectionsMissingPreview,
+  auditPreviewAssets,
+} from './config'
 export type {AssetAuditResult} from './config'
 export {detectSections, toKebabCase} from './detect'
 export type {DetectSectionsOptions, SchemaTypeLike} from './detect'

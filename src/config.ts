@@ -26,12 +26,22 @@ export function resolvePreviewUrl(previewImage: string, baseUrl: string): string
 }
 
 /**
- * Apply defaults and validate the config. Throws on duplicate section types so a
- * copy-paste mistake in the registry fails loudly instead of silently shadowing.
+ * Apply defaults, run detection, and validate the config. Throws when both or
+ * neither of `sections` / `detect` are given, and on duplicate section types, so
+ * a config mistake fails loudly instead of silently shadowing.
+ *
+ * Exported so tests and scripts can work with the same section list the plugin
+ * uses, e.g. `auditPreviewAssets(resolveConfig(SECTIONS).sections, files)`.
  */
 export function resolveConfig(config: SectionBuilderConfig): ResolvedSectionBuilderConfig {
   const previewBaseUrl = config.previewBaseUrl ?? DEFAULT_PREVIEW_BASE_URL
   const previewHeight = config.previewHeight ?? DEFAULT_PREVIEW_HEIGHT
+
+  if (config.sections && config.detect) {
+    throw new Error(
+      '[sanity-plugin-section-builder] Provide either `sections` or `detect` in the config, not both.',
+    )
+  }
 
   const sections =
     config.sections ?? (config.detect ? detectSections(config.detect.types, config.detect) : null)

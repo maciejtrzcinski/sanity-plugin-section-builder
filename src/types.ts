@@ -25,16 +25,7 @@ export type DetectConfig = DetectSectionsOptions & {
   types: ReadonlyArray<SchemaTypeLike>
 }
 
-export interface SectionBuilderConfig {
-  /**
-   * Explicit section registry. Provide this OR {@link SectionBuilderConfig.detect}.
-   */
-  sections?: readonly SectionDefinition[]
-  /**
-   * Auto-detect sections from schema types instead of listing them. Provide this
-   * OR {@link SectionBuilderConfig.sections}.
-   */
-  detect?: DetectConfig
+interface SectionBuilderBaseConfig {
   /**
    * Base path/URL that bare-filename `previewImage` values are resolved against.
    * @default '/static/section-previews'
@@ -46,6 +37,24 @@ export interface SectionBuilderConfig {
    */
   previewHeight?: number
 }
+
+interface ExplicitSectionBuilderConfig extends SectionBuilderBaseConfig {
+  /** Explicit section registry. Provide this OR `detect`, not both. */
+  sections: readonly SectionDefinition[]
+  detect?: never
+}
+
+interface DetectedSectionBuilderConfig extends SectionBuilderBaseConfig {
+  sections?: never
+  /**
+   * Auto-detect sections from schema types instead of listing them. Provide this
+   * OR `sections`, not both.
+   */
+  detect: DetectConfig
+}
+
+/** Plugin config: either an explicit `sections` registry or a `detect` spec. */
+export type SectionBuilderConfig = ExplicitSectionBuilderConfig | DetectedSectionBuilderConfig
 
 /** Config with all defaults applied. */
 export interface ResolvedSectionBuilderConfig {
