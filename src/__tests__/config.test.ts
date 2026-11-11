@@ -54,6 +54,12 @@ describe('resolveConfig', () => {
     expect(resolved.previewUrlByType.has('hero')).toBe(false)
   })
 
+  it('throws when both sections and detect are provided', () => {
+    const both = {sections: [{type: 'hero'}], detect: {types: [{name: 'heroSection'}]}}
+    // @ts-expect-error -- the config type allows `sections` or `detect`, not both
+    expect(() => resolveConfig(both)).toThrowError(/not both/)
+  })
+
   it('throws on duplicate section types', () => {
     expect(() => resolveConfig({sections: [{type: 'hero'}, {type: 'hero'}]})).toThrowError(
       /Duplicate section type/,

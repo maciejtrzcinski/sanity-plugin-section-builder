@@ -196,18 +196,17 @@ The data schema is unaffected (preview components aren't part of the schema), so
 If you gate `previewImage` by the folder manifest (above), there are no broken
 references by construction. `auditPreviewAssets` is still handy to surface **unused
 files** (dead assets) and sections that **still need a thumbnail** — and it's pure,
-so it stays browser-safe (no `node:fs` in the bundle). Pass it the resolved section
-list and the files on disk; build the list with `detectSections` when you use
-auto-detect (the config's `sections` is only populated in explicit mode):
+so it stays browser-safe (no `node:fs` in the bundle). Pass it the section list
+the plugin uses (`resolveConfig` runs detection for you in auto-detect mode) and
+the files on disk:
 
 ```ts
 import {readdirSync} from 'node:fs'
-import {auditPreviewAssets, detectSections} from '@maciejtrzcinski/sanity-plugin-section-builder'
-import {sectionTypes} from './schemaTypes/sections'
+import {auditPreviewAssets, resolveConfig} from '@maciejtrzcinski/sanity-plugin-section-builder'
+import {SECTIONS} from './sections'
 
-const sections = detectSections(sectionTypes, {include: ['quoteSectionTitled']})
 const {missing, unused, withoutPreview} = auditPreviewAssets(
-  sections,
+  resolveConfig(SECTIONS).sections,
   readdirSync('static/section-previews'),
 )
 
@@ -228,6 +227,7 @@ expect(missing).toEqual([]) // every referenced filename exists on disk
 | `makeSectionItemPreview(map, height)`         | `.`   | Builds the per-type preview component (the plugin uses this internally).      |
 | `SectionPreviewImage({src, height})`          | `.`   | The thumbnail `<img>` (hides itself on load error).                           |
 | `auditPreviewAssets(sections, files)`         | `.`   | Pure check for missing/unused preview assets (feed it `readdirSync(...)`).    |
+| `resolveConfig(config)`                       | `.`   | Applies defaults, runs detection, validates; returns the final section list.  |
 | `resolvePreviewUrl`, `sectionsMissingPreview` | `.`   | Helpers used internally; exported for convenience.                            |
 
 Exported types: `SectionBuilderConfig`, `SectionDefinition`, `DetectConfig`,
@@ -247,12 +247,15 @@ interface SectionDefinition {
 ### `SectionBuilderConfig`
 
 ```ts
-interface SectionBuilderConfig {
-  sections?: readonly SectionDefinition[] // explicit list, OR…
-  detect?: DetectConfig // …auto-detect from schema types
+// Exactly one of `sections` or `detect`: passing both (or neither) is a type
+// error, and throws at runtime.
+type SectionBuilderConfig = {
   previewBaseUrl?: string // default '/static/section-previews'
   previewHeight?: number // default 320
-}
+} & (
+  | {sections: readonly SectionDefinition[]} // explicit list, OR…
+  | {detect: DetectConfig} // …auto-detect from schema types
+)
 
 type DetectConfig = {
   types: ReadonlyArray<{name: string; type?: string}>
@@ -293,6 +296,8 @@ without per-schema boilerplate.
 
 - **Previews**: registered via Sanity's global `form.components.preview` resolver,
   which keys off the schema type name — so no per-schema component is needed.
+  The thumbnail is lazy-loaded, and skipped in compact rows and Portable Text
+  (block / inline) previews, where it wouldn't fit.
 - **Insert-menu grid**: wired through the array field's `options.insertMenu`
   (`previewImageUrl`), built for you by `sectionField`.
 - **Section list**: `detect` filters your schema types by a predicate at config

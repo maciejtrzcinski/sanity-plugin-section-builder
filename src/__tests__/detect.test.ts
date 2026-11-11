@@ -90,6 +90,7 @@ describe('resolveConfig with detect', () => {
   })
 
   it('throws when neither sections nor detect is provided', () => {
+    // @ts-expect-error -- the config type requires `sections` or `detect`
     expect(() => resolveConfig({})).toThrowError(/Provide either `sections` or `detect`/)
   })
 })
