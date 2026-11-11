@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0](https://github.com/maciejtrzcinski/sanity-plugin-section-builder/compare/v1.0.2...v1.1.0) (2026-11-11)
+
+### Features
+
+- export resolveConfig; reject configs with both sections and detect; skip thumbnails in compact/Portable Text layouts ([#22](https://github.com/maciejtrzcinski/sanity-plugin-section-builder/issues/22)) ([5c9cf1c](https://github.com/maciejtrzcinski/sanity-plugin-section-builder/commit/5c9cf1c608bb37b5afe29b0e1102fd1db98f604b))
+
 ## [1.0.2](https://github.com/maciejtrzcinski/sanity-plugin-section-builder/compare/v1.0.1...v1.0.2) (2026-11-05)
 
 ### Bug Fixes

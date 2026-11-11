@@ -1,6 +1,6 @@
 {
   "name": "@maciejtrzcinski/sanity-plugin-section-builder",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Visual page-builder section picker for Sanity Studio — thumbnail previews in the array editor, edit pane, and insert menu, driven by a single section registry.",
   "keywords": [
     "sanity",
